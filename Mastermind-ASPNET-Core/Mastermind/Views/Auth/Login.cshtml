@@ -1,0 +1,67 @@
+﻿@model AuthLoginVM
+@{
+    ViewData["Title"] = SharedLocalizer["Identification"];
+}
+
+<div id="login-page">
+    <div class="row">
+        <div class="offset-md-1 offset-lg-2 col-md-10 col-lg-8">
+            <div class="page-title">
+                <h2>@SharedLocalizer["Identification"]</h2>
+            </div>
+
+            @if (!string.IsNullOrWhiteSpace(Context.Request.Query["ReturnUrl"]))
+            {
+                if (User?.Identity?.IsAuthenticated ?? false)
+                {
+                    <div class="alert alert-warning" role="alert">
+                        @SharedLocalizer["AccessDeniedChangeUserMsg"]
+                        <br /><a asp-area="" asp-controller="Home" asp-action="Index">@SharedLocalizer["BackToHomepage"]</a>
+                    </div>
+                }
+                else
+                {
+                    <div class="alert alert-warning" role="alert">
+                        @SharedLocalizer["AccessDeniedMsg"]
+                        <br /><a asp-area="" asp-controller="Home" asp-action="Index">@SharedLocalizer["BackToHomepage"]</a>
+                    </div>
+                }
+            }
+
+            <div class="form-section">
+                <form asp-action="Login" asp-route-returnurl="@Context.Request.Query["ReturnUrl"]">
+                    <div class="form-horizontal">
+                        <hr />
+                        <div class="form-group row">
+                            <label asp-for="Username" class="col-form-label col-md-3">@SharedLocalizer["Username"]</label>
+                            <div class="col-md-9">
+                                <input asp-for="Username" class="form-control" />
+                                <span asp-validation-for="Username" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label asp-for="Password" class="col-form-label col-md-3">@SharedLocalizer["Password"]</label>
+                            <div class="col-md-9">
+                                <input asp-for="Password" class="form-control" />
+                                <span asp-validation-for="Password" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <hr />
+                    </div>
+                    <div class="text-center">
+                        <input type="submit" value="@SharedLocalizer["SignIn"]" class="btn btn-primary" />
+                    </div>
+                </form>
+            </div>
+            <div class="links">
+                <a asp-controller="Membres" asp-action="Register">@SharedLocalizer["CreateNewAccount"]</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

@@ -1,0 +1,133 @@
+﻿@model Game
+
+<div id="mastermind">
+    <input type="hidden" id="current-playing-row" value="@Model.CurrentPlayingRow" />
+    <input type="hidden" id="nb-positions" value="@Model.NbPositions" />
+    <input type="hidden" id="selected-color-index" />
+
+    <div class="title">
+        <h1>@Localizer["Game"]</h1>
+    </div>
+    <div class="information">
+        @switch (Model.State)
+        {
+            case Game.GameState.Running:
+                <p>@Localizer["GameInProgress"]</p>
+                break;
+            case Game.GameState.PlayerWin:
+                <p>@Localizer["YouWon"]</p>
+                break;
+            case Game.GameState.ComputerWin:
+                <p>@Localizer["YouLost"]</p>
+                break;
+        }
+        @if (Model.State != Game.GameState.Running)
+        {
+            <div class="link">
+                <a asp-action="Replay" class="btn btn-sm btn-primary">@Localizer["PlayAgain"]</a>
+            </div>
+        }
+    </div>
+    @if (Model.State != Game.GameState.Running)
+    {
+        <div class="computer-row">
+            <div class="answer">
+                @foreach (int color in Model.ComputerRow.PawnColors)
+                {
+                    <span class="circle no-border color-@color"></span>
+                }
+            </div>
+            <div class="fake">
+                @for (int position = 1; position <= Model.NbPositions; position++)
+                {
+                    <span class="mini-circle"></span>
+                }
+            </div>
+        </div>
+    }
+    <div class="board">
+        @for (int row = Model.NbAttempts; row >= 1; row--)
+        {
+            string activeClass = Model.State == Game.GameState.Running && row == Model.CurrentPlayingRow ? "active" : "";
+
+            <div class="player-row @activeClass">
+                <div class="choices">
+                    @for (int position = 1; position <= Model.NbPositions; position++)
+                    {
+                        @if (row < Model.CurrentPlayingRow)
+                        {
+                            Pawn pawn = Model.PlayerRows[row - 1].Pawns[position - 1];
+                            if (pawn.Color > 0)
+                            {
+                                <span class="circle no-border color-@Model.PlayerRows[row - 1].Pawns[position - 1].Color"></span>
+                            }
+                            else
+                            {
+                                <span class="circle"></span>
+                            }
+                        }
+                        else if (Model.State == Game.GameState.Running && row == Model.CurrentPlayingRow)
+                        {
+                            <button class="circle" data-color-class="" data-position-index="@position" onclick="onPositionClick(this)"></button>
+                        }
+                        else
+                        {
+                            <span class="circle"></span>
+                        }
+                    }
+                </div>
+                <div class="result">
+                    @for (int position = 1; position <= Model.NbPositions; position++)
+                    {
+                        @if (row < Model.CurrentPlayingRow)
+                        {
+                            @if (position <= Model.PlayerRows[row - 1].NbBlackMarks)
+                            {
+                                <span class="mini-circle no-border mark-black"></span>
+                            }
+                            else if (position - Model.PlayerRows[row - 1].NbBlackMarks <= Model.PlayerRows[row - 1].NbWhiteMarks)
+                            {
+                                <span class="mini-circle no-border mark-white"></span>
+                            }
+                            else
+                            {
+                                <span class="mini-circle"></span>
+                            }
+                        }
+                        else
+                        {
+                            <span class="mini-circle"></span>
+                        }
+                    }
+                </div>
+            </div>
+        }
+    </div>
+    @if (Model.State == Game.GameState.Running)
+    {
+        <div class="warning">
+            <span></span>
+        </div>
+        <div class="player-action">
+            <div>
+                <p>Choisissez vos couleurs</p>
+            </div>
+            <div class="colors">
+                @for (int colorIndex = 1; colorIndex <= Model.NbColors; colorIndex++)
+                {
+                    <button class="color-@colorIndex" data-color-index="@colorIndex" onclick="onColorClick(this);"></button>
+                }
+            </div>
+            <div class="form">
+                <form asp-action="Validate" onsubmit="validateChoices(this);return false;">
+                    @for (int position = 1; position <= Model.NbPositions; position++)
+                    {
+                        <input type="hidden" id="color-index-@position" name="color-index-@position" value="0" />
+                    }
+                    <button type="submit" class="btn btn-sm btn-primary">Confirmer vos choix</button>
+                </form>
+            </div>
+        </div>
+    }
+    <a asp-action="Replay">Nouvelle partie</a>
+</div>

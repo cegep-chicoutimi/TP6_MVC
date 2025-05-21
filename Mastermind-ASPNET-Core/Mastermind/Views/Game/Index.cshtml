@@ -1,0 +1,111 @@
+﻿@model Mastermind.ViewModels.GameVM
+@{
+    ViewData["Title"] = @Localizer["Game"];
+
+    /*
+     * Visuel inspiré de : https://github.com/jsk900/mastermind
+    */
+}
+
+@section Links
+{
+    <link rel="stylesheet" href="~/css/game.css" asp-append-version="true" />
+}
+
+<div id="game-page">
+    <div class="row">
+        <div class="col-md-6">
+            <div id="game-container">
+                <div class="text-center">
+                    <h1>@Localizer["Game"]</h1>
+                    
+                    <div class="game-container">
+                        <div class="game-board">
+                            @for (int i = 0; i < Model.MaxAttempts; i++)
+                            {
+                                <div class="game-row @(i == Model.CurrentAttempt ? "active" : "")">
+                                    <div class="pegs">
+                                        @for (int j = 0; j < Model.PegCount; j++)
+                                        {
+                                            <div class="peg" data-position="@j"></div>
+                                        }
+                                    </div>
+                                    <div class="feedback">
+                                        @for (int j = 0; j < Model.PegCount; j++)
+                                        {
+                                            <div class="feedback-peg"></div>
+                                        }
+                                    </div>
+                                </div>
+                            }
+                        </div>
+
+                        <div class="color-palette">
+                            @foreach (var color in Model.Colors)
+                            {
+                                <div class="color-option" style="background-color: @color"></div>
+                            }
+                        </div>
+
+                        <div class="game-controls">
+                            <button id="submitBtn" class="btn btn-primary" disabled>
+                                @Localizer["Submit"]
+                            </button>
+                            <a asp-action="Index" class="btn btn-secondary">
+                                @Localizer["NewGame"]
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="your-stats">
+                <h3>Vos statistiques</h3>
+                <p>
+                    Parties gagnées : 20<br />
+                    Parties perdues : 70<br />
+                    Parties abandonnées : 3<br />
+                    Moins de coups : 5<br />
+                    Moyenne de coups : 9,7
+                </p>
+                <div id="piechart" class="chart"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts
+{
+    <script src="~/js/game.js" asp-append-version="true"></script>
+
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+        google.charts.load('current', { 'packages': ['corechart'] });
+        google.charts.setOnLoadCallback(drawPieChart);
+
+        function drawPieChart() {
+            var data = google.visualization.arrayToDataTable([
+                ['Resultat', 'Quantite'],
+                ['Gagnées', 20],
+                ['Perdues', 70],
+                ['Abandonnées', 3]
+            ]);
+
+            var options = {
+                fontSize: 14,
+                is3D: true,
+                responsive: true,
+                slices: [{ color: 'blue', offset: 0.1 }, { color: 'orange', offset: 0.1 }, { color: 'silver' }],
+            };
+
+            var chart = new google.visualization.PieChart(document.getElementById('piechart'));
+            chart.draw(data, options);
+        }
+
+        window.onresize = function () {
+            // Redessiner les graphiques lorsque la fenêtre est redimentionnée
+            drawPieChart();
+        };
+    </script>
+}

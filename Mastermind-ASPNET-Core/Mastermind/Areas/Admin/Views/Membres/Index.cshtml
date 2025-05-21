@@ -1,0 +1,74 @@
+@model IEnumerable<Mastermind.Models.Member>
+
+@{
+    ViewData["Title"] = SharedLocalizer["MemberManagement"];
+}
+
+<div class="container-fluid">
+    <h1>@SharedLocalizer["MemberManagement"]</h1>
+
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            @TempData["SuccessMessage"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    }
+
+    <p>
+        <a asp-action="Create" class="btn btn-primary">@SharedLocalizer["CreateMember"]</a>
+    </p>
+
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>@SharedLocalizer["Username"]</th>
+                    <th>@SharedLocalizer["FullName"]</th>
+                    <th>@SharedLocalizer["Email"]</th>
+                    <th>@SharedLocalizer["Role"]</th>
+                    <th>@SharedLocalizer["Actions"]</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.Any())
+                {
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>@item.Username</td>
+                            <td>@item.FullName</td>
+                            <td>@item.Email</td>
+                            <td>@item.Role</td>
+                            <td>
+                                <div class="btn-group" role="group">
+                                    <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-primary">@SharedLocalizer["Edit"]</a>
+                                    <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-info">@SharedLocalizer["Details"]</a>
+                                    <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger" 
+                                       onclick="return confirm('@SharedLocalizer["DeleteConfirmation"]')">@SharedLocalizer["Delete"]</a>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="5" class="text-center">@SharedLocalizer["NoMembersFound"]</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        // Auto-hide alerts after 5 seconds
+        window.setTimeout(function () {
+            $(".alert").fadeTo(500, 0).slideUp(500, function () {
+                $(this).remove();
+            });
+        }, 5000);
+    </script>
+} 

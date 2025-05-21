@@ -1,0 +1,57 @@
+﻿@model Mastermind.ViewModels.HomeVM
+@{
+    ViewData["Title"] = @Localizer["WelcomeToMastermind"];
+}
+
+<div id="home-page">
+    <div class="row mb-4">
+        <div class="col-12">
+            <img src="~/img/mastermind-banner.png" alt="Mastermind" class="img-fluid" />
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12">
+            <a id="rules"></a>
+            <h3>@Localizer["GameRules"]</h3>
+            <p>
+                @Localizer["GameRulesDescription"]
+            </p>
+
+            <h3>@Localizer["StartNewGame"]</h3>
+            <p>
+                @Localizer["StartNewGameDescription"]
+            </p>
+            <p>
+                <a asp-controller="Game" asp-action="Index" class="btn btn-primary">
+                    @Localizer["StartNewGame"]
+                </a>
+            </p>
+
+            <h3>@Localizer["IncorrectCombination"]</h3>
+            <p>
+                @Localizer["IncorrectCombinationDescription"]
+            </p>
+            <p>
+                @Localizer["IncorrectCombinationExplanation"]
+            </p>
+            <p>
+                @Localizer["IncorrectCombinationContinuation"]
+            </p>
+
+            <h3>@Localizer["CorrectCombination"]</h3>
+            <p>
+                @Localizer["CorrectCombinationDescription"]
+            </p>
+
+            <h3>@Localizer["TipsForDeciphering"]</h3>
+            <p>
+                @Localizer["TipsForDecipheringDescription"]
+            </p>
+
+            <p class="rules-link">
+                @Localizer["RulesInspiredBy"]
+                <a href="https://www.regles-de-jeux.com/regle-du-mastermind/">https://www.regles-de-jeux.com/regle-du-mastermind/</a>
+            </p>
+        </div>
+    </div>
+</div>

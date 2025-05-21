@@ -1,0 +1,85 @@
+﻿@model Mastermind.Areas.Admin.ViewModels.HomeVM
+@{
+    ViewData["Title"] = SharedLocalizer["AdminDashboard"];
+}
+
+<div id="dashboard-page">
+    <div class="row">
+        <div class="col-12">
+            <div class="page-title">
+                <h2>@SharedLocalizer["AdminDashboard"]</h2>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6">
+            <div id="barchart" class="chart"></div>
+        </div>
+        <div class="col-md-6">
+            <div id="piechart" class="chart"></div>
+        </div>
+    </div>
+</div>
+
+@section Scripts
+{
+    @*
+        Utilisation de Google Chart
+        https://developers-dot-devsite-v2-prod.appspot.com/chart/interactive/docs/gallery/barchart?hl=fr
+        https://developers-dot-devsite-v2-prod.appspot.com/chart/interactive/docs/gallery/piechart?hl=fr
+    *@
+
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+        google.charts.load('current', { 'packages': ['corechart'] });
+        google.charts.setOnLoadCallback(drawBarChart);
+        google.charts.setOnLoadCallback(drawPieChart);
+
+        function drawBarChart() {
+            var data = google.visualization.arrayToDataTable([
+                ["Element", "Valeur", { role: "style" } ],
+                ["Couleurs", @Model.NbColors, "color: gold"],
+                ["Positions", @Model.NbPositions, "color: orange"],
+                ["Tentatives", @Model.NbAttempts, "color: blue"]
+            ]);
+
+            var view = new google.visualization.DataView(data);
+            view.setColumns([0, 1,
+                            { calc: "stringify",
+                                sourceColumn: 1,
+                                type: "string",
+                                role: "annotation" },
+                            2]);
+
+            var options = {
+                title: "Configuration du jeu",
+                width: 600,
+                height: 400,
+                bar: { groupWidth: "95%" },
+                legend: { position: "none" },
+            };
+            var chart = new google.visualization.BarChart(document.getElementById("barchart"));
+            chart.draw(view, options);
+        }
+
+        function drawPieChart() {
+            var data = google.visualization.arrayToDataTable([
+                ['Task', 'Hours per Day'],
+                ['Couleurs', @Model.NbColors],
+                ['Positions', @Model.NbPositions],
+                ['Tentatives', @Model.NbAttempts]
+            ]);
+
+            var options = {
+                title: 'Répartition des paramètres',
+                width: 600,
+                height: 400,
+                is3D: true,
+            };
+
+            var chart = new google.visualization.PieChart(document.getElementById('piechart'));
+            chart.draw(data, options);
+        }
+    </script>
+}

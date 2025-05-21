@@ -1,0 +1,47 @@
+@model Mastermind.Models.Member
+@{
+    ViewData["Title"] = "Supprimer un membre";
+}
+
+<div class="container">
+    <h2>@ViewData["Title"]</h2>
+
+    <div class="alert alert-danger">
+        <h4>Êtes-vous sûr de vouloir supprimer ce membre ?</h4>
+        <p>Cette action est irréversible.</p>
+    </div>
+
+    <div class="row">
+        <div class="col-md-8">
+            <dl class="row">
+                <dt class="col-sm-3">@Html.DisplayNameFor(model => model.FullName)</dt>
+                <dd class="col-sm-9">@Html.DisplayFor(model => model.FullName)</dd>
+
+                <dt class="col-sm-3">@Html.DisplayNameFor(model => model.Email)</dt>
+                <dd class="col-sm-9">@Html.DisplayFor(model => model.Email)</dd>
+
+                <dt class="col-sm-3">@Html.DisplayNameFor(model => model.Username)</dt>
+                <dd class="col-sm-9">@Html.DisplayFor(model => model.Username)</dd>
+
+                <dt class="col-sm-3">@Html.DisplayNameFor(model => model.Role)</dt>
+                <dd class="col-sm-9">@Html.DisplayFor(model => model.Role)</dd>
+
+                @if (!string.IsNullOrEmpty(Model.ImagePath))
+                {
+                    <dt class="col-sm-3">@Html.DisplayNameFor(model => model.ImagePath)</dt>
+                    <dd class="col-sm-9">
+                        <img src="@Model.ImagePath" alt="Image de profil" class="img-thumbnail" style="max-width: 200px;" />
+                    </dd>
+                }
+            </dl>
+
+            <form asp-action="Delete">
+                <input type="hidden" asp-for="Id" />
+                <div class="form-group mt-4">
+                    <input type="submit" value="Supprimer" class="btn btn-danger" />
+                    <a asp-action="Index" class="btn btn-secondary">Retour à la liste</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div> 

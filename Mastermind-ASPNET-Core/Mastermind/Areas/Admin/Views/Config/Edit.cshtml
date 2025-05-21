@@ -1,0 +1,53 @@
+﻿@model Mastermind.Areas.Admin.ViewModels.ConfigEditVM
+@{
+    ViewData["Title"] = "Configurations";
+}
+
+<div id="config-page">
+    <div class="row">
+        <div class="offset-md-2 offset-lg-3 col-md-8 col-lg-6">
+            <div class="page-title">
+                <h2>Configurations globales</h2>
+            </div>
+
+            <div class="form-section">
+                <form asp-action="Edit">
+                    <div class="form-horizontal">
+                        <hr />
+                        <div class="form-group row">
+                            <label asp-for="NbColors" class="col-form-label col-md-6"></label>
+                            <div class="col-md-6">
+                                <input asp-for="NbColors" class="form-control" />
+                                <span asp-validation-for="NbColors" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                           <label asp-for="NbPositions" class="col-form-label col-md-6"></label>
+                            <div class="col-md-6">
+                                <input asp-for="NbPositions" class="form-control" />
+                                <span asp-validation-for="NbPositions" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label asp-for="NbAttempts" class="col-form-label col-md-6"></label>
+                            <div class="col-md-6">
+                                <input asp-for="NbAttempts" class="form-control" />
+                                <span asp-validation-for="NbAttempts" class="text-danger"></span>
+                            </div>
+                        </div>
+                         <hr />
+                    </div>
+                    <div class="text-center">
+                        <input type="submit" value="Modifier" class="btn btn-primary" />
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

@@ -1,0 +1,40 @@
+﻿html {
+    font-size: 16px;
+    position: relative;
+    min-height: 100%;
+}
+
+body {
+    margin-bottom: 60px;
+    text-align: center;
+}
+
+.page-title {
+    color: #000f62;
+    margin-bottom: 30px;
+}
+
+.form-section .form-group {
+    margin-bottom: 8px;
+    text-align: right;
+}
+
+    .form-section .form-group > div {
+        text-align: left;
+    }
+
+.chart {
+    border: 1px solid #ccc;
+    height: 300px;
+    margin: 15px 0;
+}
+
+@media screen and (max-width: 768px) {
+    html {
+        font-size: 14px;
+    }
+
+    .form-section .form-group {
+        text-align: left;
+    }
+}

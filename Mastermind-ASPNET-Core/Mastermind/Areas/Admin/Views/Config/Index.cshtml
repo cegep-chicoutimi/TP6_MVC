@@ -1,0 +1,43 @@
+@model Mastermind.Models.GameConfig
+
+@{
+    ViewData["Title"] = SharedLocalizer["GameSettings"];
+}
+
+<div class="container-fluid">
+    <h1>@SharedLocalizer["GameSettings"]</h1>
+
+    <div class="row">
+        <div class="col-md-6">
+            <form asp-action="Index" method="post">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                <div class="form-group mb-3">
+                    <label asp-for="MaxAttempts" class="control-label">@SharedLocalizer["MaxAttempts"]</label>
+                    <input asp-for="MaxAttempts" class="form-control" />
+                    <span asp-validation-for="MaxAttempts" class="text-danger"></span>
+                </div>
+
+                <div class="form-group mb-3">
+                    <label asp-for="CodeLength" class="control-label">@SharedLocalizer["CodeLength"]</label>
+                    <input asp-for="CodeLength" class="form-control" />
+                    <span asp-validation-for="CodeLength" class="text-danger"></span>
+                </div>
+
+                <div class="form-group mb-3">
+                    <label asp-for="AvailableColors" class="control-label">@SharedLocalizer["AvailableColors"]</label>
+                    <input asp-for="AvailableColors" class="form-control" />
+                    <span asp-validation-for="AvailableColors" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary">@SharedLocalizer["Save"]</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+} 
