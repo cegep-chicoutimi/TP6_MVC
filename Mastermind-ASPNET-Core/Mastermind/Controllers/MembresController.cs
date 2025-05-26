@@ -8,6 +8,8 @@ using Mastermind.Models;
 using Mastermind.DataAccessLayer.Factories;
 using Mastermind.Resources;
 using System.Security.Claims;
+using Mastermind.DataAccessLayer;
+using Mastermind.Helper;
 
 namespace Mastermind.Controllers
 {
@@ -16,12 +18,15 @@ namespace Mastermind.Controllers
         private readonly MemberFactory _memberFactory;
         private readonly IWebHostEnvironment _environment;
         private readonly IStringLocalizer<Resource> _localizer;
+        private DAL _dal;
 
         public MembresController(IWebHostEnvironment environment, IStringLocalizer<Resource> localizer)
         {
             _memberFactory = new MemberFactory();
             _environment = environment;
             _localizer = localizer;
+            _dal = new DAL();
+
         }
 
         [AllowAnonymous]
@@ -32,7 +37,10 @@ namespace Mastermind.Controllers
             {
                 return RedirectToAction("Index", "Home");
             }
-            return View();
+
+            Member member = _dal.MemberFact.CreateEmpty();
+
+            return View(member);
         }
 
         [HttpPost]
@@ -73,6 +81,7 @@ namespace Mastermind.Controllers
 
             // Set role to Standard for new registrations
             member.Role = MemberRoles.Standard;
+            member.Password = CryptographyHelper.HashPassword(member.Password);
 
             // Create the member
             _memberFactory.Create(member);
