@@ -1,15 +1,15 @@
-﻿@model Game
+﻿@model Mastermind.ViewModels.GameVM
 
 <div id="mastermind">
-    <input type="hidden" id="current-playing-row" value="@Model.CurrentPlayingRow" />
-    <input type="hidden" id="nb-positions" value="@Model.NbPositions" />
+    <input type="hidden" id="current-playing-row" value="@Model.CurrentAttempt" />
+    <input type="hidden" id="nb-positions" value="@Model.PegCount" />
     <input type="hidden" id="selected-color-index" />
 
     <div class="title">
         <h1>@SharedLocalizer["Game"]</h1>
     </div>
     <div class="information">
-        @switch (Model.State)
+        @switch (Model.Game.State)
         {
             case Game.GameState.Running:
                 <p>@SharedLocalizer["GameInProgress"]</p>
@@ -21,24 +21,24 @@
                 <p>@SharedLocalizer["YouLost"]</p>
                 break;
         }
-        @if (Model.State != Game.GameState.Running)
+        @if (Model.Game.State != Game.GameState.Running)
         {
             <div class="link">
                 <a asp-action="Replay" class="btn btn-sm btn-primary">@SharedLocalizer["PlayAgain"]</a>
             </div>
         }
     </div>
-    @if (Model.State != Game.GameState.Running)
+    @if (Model.Game.State != Game.GameState.Running)
     {
         <div class="computer-row">
             <div class="answer">
-                @foreach (int color in Model.ComputerRow.PawnColors)
+                @foreach (int color in Model.Game.ComputerRow.PawnColors)
                 {
                     <span class="circle no-border color-@color"></span>
                 }
             </div>
             <div class="fake">
-                @for (int position = 1; position <= Model.NbPositions; position++)
+                @for (int position = 1; position <= Model.PegCount; position++)
                 {
                     <span class="mini-circle"></span>
                 }
@@ -46,27 +46,27 @@
         </div>
     }
     <div class="board">
-        @for (int row = Model.NbAttempts; row >= 1; row--)
+        @for (int row = Model.MaxAttempts; row >= 1; row--)
         {
-            string activeClass = Model.State == Game.GameState.Running && row == Model.CurrentPlayingRow ? "active" : "";
+            string activeClass = Model.Game.State == Game.GameState.Running && row == Model.CurrentAttempt ? "active" : "";
 
             <div class="player-row @activeClass">
                 <div class="choices">
-                    @for (int position = 1; position <= Model.NbPositions; position++)
+                    @for (int position = 1; position <= Model.PegCount; position++)
                     {
-                        @if (row < Model.CurrentPlayingRow)
+                        @if (row < Model.CurrentAttempt)
                         {
-                            Pawn pawn = Model.PlayerRows[row - 1].Pawns[position - 1];
+                            Pawn pawn = Model.Game.PlayerRows[row - 1].Pawns[position - 1];
                             if (pawn.Color > 0)
                             {
-                                <span class="circle no-border color-@Model.PlayerRows[row - 1].Pawns[position - 1].Color"></span>
+                                <span class="circle no-border color-@Model.Game.PlayerRows[row - 1].Pawns[position - 1].Color"></span>
                             }
                             else
                             {
                                 <span class="circle"></span>
                             }
                         }
-                        else if (Model.State == Game.GameState.Running && row == Model.CurrentPlayingRow)
+                        else if (Model.Game.State == Game.GameState.Running && row == Model.CurrentAttempt)
                         {
                             <button class="circle" data-color-class="" data-position-index="@position" onclick="onPositionClick(this)"></button>
                         }
@@ -77,15 +77,15 @@
                     }
                 </div>
                 <div class="result">
-                    @for (int position = 1; position <= Model.NbPositions; position++)
+                    @for (int position = 1; position <= Model.PegCount; position++)
                     {
-                        @if (row < Model.CurrentPlayingRow)
+                        @if (row < Model.CurrentAttempt)
                         {
-                            @if (position <= Model.PlayerRows[row - 1].NbBlackMarks)
+                            @if (position <= Model.Game.PlayerRows[row - 1].NbBlackMarks)
                             {
                                 <span class="mini-circle no-border mark-black"></span>
                             }
-                            else if (position - Model.PlayerRows[row - 1].NbBlackMarks <= Model.PlayerRows[row - 1].NbWhiteMarks)
+                            else if (position - Model.Game.PlayerRows[row - 1].NbBlackMarks <= Model.Game.PlayerRows[row - 1].NbWhiteMarks)
                             {
                                 <span class="mini-circle no-border mark-white"></span>
                             }
@@ -103,7 +103,7 @@
             </div>
         }
     </div>
-    @if (Model.State == Game.GameState.Running)
+    @if (Model.Game.State == Game.GameState.Running)
     {
         <div class="warning">
             <span></span>
@@ -113,14 +113,14 @@
                 <p>@SharedLocalizer["ChooseYourColors"]</p>
             </div>
             <div class="colors">
-                @for (int colorIndex = 1; colorIndex <= Model.NbColors; colorIndex++)
+                @for (int colorIndex = 1; colorIndex <= Model.Game.NbColors; colorIndex++)
                 {
                     <button class="color-@colorIndex" data-color-index="@colorIndex" onclick="onColorClick(this);"></button>
                 }
             </div>
             <div class="form">
                 <form asp-action="Validate" onsubmit="validateChoices(this);return false;">
-                    @for (int position = 1; position <= Model.NbPositions; position++)
+                    @for (int position = 1; position <= Model.PegCount; position++)
                     {
                         <input type="hidden" id="color-index-@position" name="color-index-@position" value="0" />
                     }

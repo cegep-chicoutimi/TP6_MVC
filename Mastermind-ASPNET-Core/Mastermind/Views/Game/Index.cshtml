@@ -63,11 +63,9 @@
             <div class="your-stats">
                 <h3>@SharedLocalizer["YourStats"]</h3>
                 <p>
-                    @SharedLocalizer["GamesWon"]: 20<br />
-                    @SharedLocalizer["GamesLost"]: 70<br />
-                    @SharedLocalizer["GamesAbandoned"]: 3<br />
-                    @SharedLocalizer["BestScore"]: 5<br />
-                    @SharedLocalizer["AverageScore"]: 9,7
+                    @SharedLocalizer["GamesWon"]: @(Model.Stats?.GamesWon ?? 0)<br />
+                    @SharedLocalizer["GamesLost"]: @(Model.Stats?.GamesLost ?? 0)<br />
+                    @SharedLocalizer["BestScore"]: @(Model.Stats?.BestScore?.ToString() ?? "-")<br />
                 </p>
                 <div id="piechart" class="chart"></div>
             </div>
@@ -87,16 +85,15 @@
         function drawPieChart() {
             var data = google.visualization.arrayToDataTable([
                 ['@SharedLocalizer["Result"]', '@SharedLocalizer["Quantity"]'],
-                ['@SharedLocalizer["Won"]', 20],
-                ['@SharedLocalizer["Lost"]', 70],
-                ['@SharedLocalizer["Abandoned"]', 3]
+                ['@SharedLocalizer["Won"]', @(Model.Stats?.GamesWon ?? 0)],
+                ['@SharedLocalizer["Lost"]', @(Model.Stats?.GamesLost ?? 0)]
             ]);
 
             var options = {
                 fontSize: 14,
                 is3D: true,
                 responsive: true,
-                slices: [{ color: 'blue', offset: 0.1 }, { color: 'orange', offset: 0.1 }, { color: 'silver' }],
+                slices: [{ color: 'blue', offset: 0.1 }, { color: 'orange', offset: 0.1 }],
             };
 
             var chart = new google.visualization.PieChart(document.getElementById('piechart'));

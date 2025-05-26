@@ -1,5 +1,7 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Mvc;
+using Mastermind.Resources;
 
 namespace Mastermind.Models
 {
@@ -7,15 +9,13 @@ namespace Mastermind.Models
     {
         public int Id { get; set; }
 
-        [Required(ErrorMessage = "Le nom complet est requis")]
-        [StringLength(20, ErrorMessage = "Le nom complet ne peut pas dépasser 20 caractères")]
-        [Display(Name = "FullName")]
+        [Required(ErrorMessageResourceType = typeof(Resource), ErrorMessageResourceName = "Required")]
+        [Display(ResourceType = typeof(Resource), Name = "FullName")]
         public string FullName { get; set; } = string.Empty;
 
-        [Required(ErrorMessage = "L'email est requis")]
-        [EmailAddress(ErrorMessage = "L'email n'est pas valide")]
-        [StringLength(50, ErrorMessage = "L'email ne peut pas dépasser 50 caractères")]
-        [Display(Name = "Email")]
+        [Required(ErrorMessageResourceType = typeof(Resource), ErrorMessageResourceName = "Required")]
+        [Display(ResourceType = typeof(Resource), Name = "Email")]
+        [EmailAddress(ErrorMessageResourceType = typeof(Resource), ErrorMessageResourceName = "InvalidEmail")]
         public string Email { get; set; } = string.Empty;
 
         [Required(ErrorMessage = "Le nom d'utilisateur est requis")]
@@ -25,10 +25,8 @@ namespace Mastermind.Models
         [Display(Name = "Username")]
         public string Username { get; set; } = string.Empty;
 
-        [Required(ErrorMessage = "Le mot de passe est requis")]
-        [StringLength(100, ErrorMessage = "Le mot de passe ne peut pas dépasser 100 caractères")]
-        [DataType(DataType.Password)]
-        [Display(Name = "Password")]
+        [Required(ErrorMessageResourceType = typeof(Resource), ErrorMessageResourceName = "Required")]
+        [Display(ResourceType = typeof(Resource), Name = "Password")]
         public string Password { get; set; } = string.Empty;
 
         [Required(ErrorMessage = "Le rôle est requis")]
@@ -38,9 +36,12 @@ namespace Mastermind.Models
         [Display(Name = "ImagePath")]
         public string ImagePath { get; set; } = string.Empty;
 
+        [Display(ResourceType = typeof(Resource), Name = "RegistrationDate")]
+        public DateTime RegistrationDate { get; set; } = DateTime.Today;
+
         public Member() { }
 
-        public Member(int id, string fullName, string email, string username, string password, string role, string imagePath)
+        public Member(int id, string fullName, string email, string username, string password, string role, string imagePath, DateTime registrationDate)
         {
             Id = id;
             FullName = fullName;
@@ -49,6 +50,7 @@ namespace Mastermind.Models
             Password = password;
             Role = role;
             ImagePath = imagePath;
+            RegistrationDate = registrationDate;
         }
     }
 

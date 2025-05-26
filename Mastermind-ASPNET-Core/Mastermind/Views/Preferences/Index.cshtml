@@ -1,0 +1,53 @@
+@model Mastermind.Models.MemberPreferences
+@{
+    ViewData["Title"] = SharedLocalizer["MyPreferences"];
+}
+
+<div class="container">
+    <h2>@SharedLocalizer["MyPreferences"]</h2>
+
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="alert alert-success">
+            @TempData["SuccessMessage"]
+        </div>
+    }
+
+    <div class="row">
+        <div class="col-md-6">
+            <form asp-action="Save" method="post">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                <div class="form-group">
+                    <label asp-for="NbColors" class="control-label"></label>
+                    <input asp-for="NbColors" class="form-control" />
+                    <span asp-validation-for="NbColors" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="NbPositions" class="control-label"></label>
+                    <input asp-for="NbPositions" class="form-control" />
+                    <span asp-validation-for="NbPositions" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="NbAttempts" class="control-label"></label>
+                    <input asp-for="NbAttempts" class="form-control" />
+                    <span asp-validation-for="NbAttempts" class="text-danger"></span>
+                </div>
+
+                <div class="form-group mt-3">
+                    <button type="submit" class="btn btn-primary">@SharedLocalizer["Save"]</button>
+                    <button type="submit" formaction="@Url.Action("Reset")" class="btn btn-secondary" 
+                            onclick="return confirm('@SharedLocalizer["ResetPreferencesConfirm"]')">
+                        @SharedLocalizer["ResetToDefault"]
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+} 

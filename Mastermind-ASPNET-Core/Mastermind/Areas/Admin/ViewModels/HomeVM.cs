@@ -1,18 +1,20 @@
-﻿namespace Mastermind.Areas.Admin.ViewModels
+﻿using Mastermind.DataAccessLayer.Factories;
+
+namespace Mastermind.Areas.Admin.ViewModels
 {
     public class HomeVM
     {
-        public int NbColors { get; set; }
-        public int NbPositions { get; set; }
-        public int NbAttempts { get; set; }
+        public int MaxAttempts { get; set; }
+        public int CodeLength { get; set; }
+        public int AvailableColors { get; set; }
+        public List<MonthlySignup> MonthlySignups { get; set; }
 
-        public HomeVM() { }
-
-        public HomeVM(int nbColors, int nbPositions, int nbAttempts)
+        public HomeVM(int maxAttempts, int codeLength, int availableColors, List<MonthlySignup> monthlySignups)
         {
-            NbColors = nbColors;
-            NbPositions = nbPositions;
-            NbAttempts = nbAttempts;
+            MaxAttempts = maxAttempts;
+            CodeLength = codeLength;
+            AvailableColors = availableColors;
+            MonthlySignups = monthlySignups;
         }
     }
 }

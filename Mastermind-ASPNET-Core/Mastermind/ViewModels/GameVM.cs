@@ -1,4 +1,5 @@
 ﻿using Mastermind.GameModels;
+using Mastermind.Models;
 
 namespace Mastermind.ViewModels
 {
@@ -8,6 +9,7 @@ namespace Mastermind.ViewModels
         public int MaxAttempts => Game.NbAttempts;
         public int CurrentAttempt => Game.CurrentPlayingRow;
         public int PegCount => Game.NbPositions;
+        public GameStats? Stats { get; set; }
         public List<string> Colors { get; set; } = new List<string>
         {
             "#FF0000", // Red
@@ -20,9 +22,10 @@ namespace Mastermind.ViewModels
         
         //TODO: Ajoutez les statistiques du joueur connecté
 
-        public GameVM(Game game)
+        public GameVM(Game game, GameStats? stats = null)
         {
             Game = game;
+            Stats = stats;
         }
     }
 }

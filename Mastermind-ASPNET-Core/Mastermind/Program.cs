@@ -1,4 +1,5 @@
 using Mastermind.DataAccessLayer;
+using Mastermind.DataAccessLayer.Factories;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
@@ -40,7 +41,13 @@ namespace Mastermind
                 options.RequestCultureProviders.Insert(0, new CookieRequestCultureProvider());
             });
 
-            builder.Services.AddSession();
+            builder.Services.AddSession(options =>
+            {
+                options.IdleTimeout = TimeSpan.FromMinutes(30);
+                options.Cookie.HttpOnly = true;
+                options.Cookie.IsEssential = true;
+            });
+
             builder.Services.AddHttpContextAccessor();
 
             // Configure authentication
@@ -59,6 +66,8 @@ namespace Mastermind
                 options.AddPolicy("RequireAdminRole", policy =>
                     policy.RequireRole("Admin"));
             });
+
+            builder.Services.AddScoped<GameStatsFactory>();
 
             var app = builder.Build();
 

@@ -1,10 +1,11 @@
 ﻿using Mastermind.GameModels;
-using Mastermind.DataAccessLayer;
+using Mastermind.DataAccessLayer.Factories;
 using Mastermind.Models;
 using Mastermind.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using System.Text.Json;
 using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
 
 namespace Mastermind.Controllers
 {
@@ -12,6 +13,12 @@ namespace Mastermind.Controllers
     public class GameController : Controller
     {
         private const string SESSION_GAME_NAME = "CurrentGame";
+        private readonly GameStatsFactory _gameStatsFactory;
+
+        public GameController(GameStatsFactory gameStatsFactory)
+        {
+            _gameStatsFactory = gameStatsFactory;
+        }
 
         private Game CreateOrGetGame()
         {
@@ -23,7 +30,7 @@ namespace Mastermind.Controllers
 
             if (game == null)
             {
-                Dictionary<string, Config> configByKey = new DAL().ConfigFact.GetAll();
+                Dictionary<string, Config> configByKey = new DataAccessLayer.DAL().ConfigFact.GetAll();
 
                 int.TryParse(configByKey[Config.NB_COLORS].Value, out int nbColors);
                 int.TryParse(configByKey[Config.NB_POSITIONS].Value, out int nbPositions);
@@ -39,7 +46,9 @@ namespace Mastermind.Controllers
         public IActionResult Index()
         {
             Game game = CreateOrGetGame();
-            GameVM viewModel = new(game);
+            var memberId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value ?? "0");
+            var stats = _gameStatsFactory.GetStatsByMemberId(memberId);
+            GameVM viewModel = new(game, stats);
 
             return View(viewModel);
         }
@@ -49,6 +58,7 @@ namespace Mastermind.Controllers
         public IActionResult Validate(IFormCollection collection)
         {
             Game? game = null;
+            var memberId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value ?? "0");
 
             string? currentJsonGame = HttpContext.Session.GetString("CurrentGame");
             if (currentJsonGame != null)
@@ -66,13 +76,23 @@ namespace Mastermind.Controllers
 
                     game.Validate(playerRow);
 
+                    // Update stats if game ended
+                    if (game.State != Game.GameState.Running)
+                    {
+                        bool isWin = game.State == Game.GameState.PlayerWin;
+                        int? attempts = isWin ? game.CurrentPlayingRow - 1 : null;
+                        _gameStatsFactory.CreateOrUpdateStats(memberId, isWin, attempts);
+                    }
+
                     HttpContext.Session.SetString("CurrentGame", JsonSerializer.Serialize(game));
                 }
             }
 
             game ??= CreateOrGetGame();
+            var stats = _gameStatsFactory.GetStatsByMemberId(memberId);
+            GameVM viewModel = new(game, stats);
 
-            return PartialView("PartialGame", game);
+            return PartialView("PartialGame", viewModel);
         }
 
         public IActionResult Replay()

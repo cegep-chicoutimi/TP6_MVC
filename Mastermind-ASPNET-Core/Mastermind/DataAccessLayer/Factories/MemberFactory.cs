@@ -1,4 +1,8 @@
-﻿using Mastermind.Models;
+﻿using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Data.SqlClient;
+using Mastermind.Models;
 using MySql.Data.MySqlClient;
 using Mastermind.Helper;
 
@@ -6,6 +10,13 @@ namespace Mastermind.DataAccessLayer.Factories
 {
     public class MemberFactory
     {
+        private readonly string _connectionString;
+
+        public MemberFactory()
+        {
+            _connectionString = DAL.ConnectionString ?? throw new InvalidOperationException("Connection string is not set");
+        }
+
         private Member CreateFromReader(MySqlDataReader reader)
         {
             int id = (int)reader["Id"];
@@ -15,13 +26,14 @@ namespace Mastermind.DataAccessLayer.Factories
             string password = reader["Password"].ToString() ?? string.Empty;
             string role = reader["Role"].ToString() ?? string.Empty;
             string imagePath = reader["ImagePath"].ToString() ?? string.Empty;
+            DateTime registrationDate = (DateTime)reader["RegistrationDate"];
 
-            return new Member(id, fullName, email, username, password, role, imagePath);
+            return new Member(id, fullName, email, username, password, role, imagePath, registrationDate);
         }
 
         public Member CreateEmpty()
         {
-            return new Member(0, string.Empty, string.Empty, string.Empty, string.Empty, string.Empty, string.Empty);
+            return new Member(0, string.Empty, string.Empty, string.Empty, string.Empty, string.Empty, string.Empty, DateTime.MinValue);
         }
 
         public List<Member> GetAll()
@@ -33,7 +45,7 @@ namespace Mastermind.DataAccessLayer.Factories
 
             try
             {
-                cnn = new MySqlConnection(DAL.ConnectionString);
+                cnn = new MySqlConnection(_connectionString);
                 cnn.Open();
 
                 MySqlCommand cmd = cnn.CreateCommand();
@@ -56,32 +68,22 @@ namespace Mastermind.DataAccessLayer.Factories
 
         public Member? GetById(int id)
         {
-            Member? member = null;
-            MySqlConnection? cnn = null;
-            MySqlDataReader? reader = null;
-
-            try
+            using (MySqlConnection connection = new MySqlConnection(_connectionString))
             {
-                cnn = new MySqlConnection(DAL.ConnectionString);
-                cnn.Open();
-
-                MySqlCommand cmd = cnn.CreateCommand();
-                cmd.CommandText = "SELECT * FROM tp6_members WHERE Id = @Id";
-                cmd.Parameters.AddWithValue("@Id", id);
-
-                reader = cmd.ExecuteReader();
-                if (reader.Read())
+                connection.Open();
+                using (MySqlCommand command = new MySqlCommand("SELECT * FROM tp6_members WHERE Id = @Id", connection))
                 {
-                    member = CreateFromReader(reader);
+                    command.Parameters.AddWithValue("@Id", id);
+                    using (MySqlDataReader reader = command.ExecuteReader())
+                    {
+                        if (reader.Read())
+                        {
+                            return CreateFromReader(reader);
+                        }
+                        return null;
+                    }
                 }
             }
-            finally
-            {
-                reader?.Close();
-                cnn?.Close();
-            }
-
-            return member;
         }
 
         public Member? GetByUsername(string username)
@@ -92,7 +94,7 @@ namespace Mastermind.DataAccessLayer.Factories
 
             try
             {
-                cnn = new MySqlConnection(DAL.ConnectionString);
+                cnn = new MySqlConnection(_connectionString);
                 cnn.Open();
 
                 MySqlCommand cmd = cnn.CreateCommand();
@@ -121,7 +123,7 @@ namespace Mastermind.DataAccessLayer.Factories
 
             try
             {
-                cnn = new MySqlConnection(DAL.ConnectionString);
+                cnn = new MySqlConnection(_connectionString);
                 cnn.Open();
 
                 MySqlCommand cmd = cnn.CreateCommand();
@@ -143,32 +145,26 @@ namespace Mastermind.DataAccessLayer.Factories
             }
         }
 
-        public int Create(Member member)
+        public void Create(Member member)
         {
-            MySqlConnection? cnn = null;
-
-            try
+            using (MySqlConnection connection = new MySqlConnection(_connectionString))
             {
-                cnn = new MySqlConnection(DAL.ConnectionString);
-                cnn.Open();
+                connection.Open();
+                using (MySqlCommand command = new MySqlCommand(@"
+                    INSERT INTO tp6_members (FullName, Email, Username, Password, Role, ImagePath, RegistrationDate)
+                    VALUES (@FullName, @Email, @Username, @Password, @Role, @ImagePath, @RegistrationDate);
+                    SELECT LAST_INSERT_ID();", connection))
+                {
+                    command.Parameters.AddWithValue("@FullName", member.FullName);
+                    command.Parameters.AddWithValue("@Email", member.Email);
+                    command.Parameters.AddWithValue("@Username", member.Username);
+                    command.Parameters.AddWithValue("@Password", CryptographyHelper.HashPassword(member.Password));
+                    command.Parameters.AddWithValue("@Role", member.Role);
+                    command.Parameters.AddWithValue("@ImagePath", member.ImagePath);
+                    command.Parameters.AddWithValue("@RegistrationDate", member.RegistrationDate);
 
-                MySqlCommand cmd = cnn.CreateCommand();
-                cmd.CommandText = @"INSERT INTO tp6_members (FullName, Email, Username, Password, Role, ImagePath) 
-                                  VALUES (@FullName, @Email, @Username, @Password, @Role, @ImagePath);
-                                  SELECT LAST_INSERT_ID();";
-
-                cmd.Parameters.AddWithValue("@FullName", member.FullName);
-                cmd.Parameters.AddWithValue("@Email", member.Email);
-                cmd.Parameters.AddWithValue("@Username", member.Username);
-                cmd.Parameters.AddWithValue("@Password", CryptographyHelper.HashPassword(member.Password));
-                cmd.Parameters.AddWithValue("@Role", member.Role);
-                cmd.Parameters.AddWithValue("@ImagePath", member.ImagePath);
-
-                return Convert.ToInt32(cmd.ExecuteScalar());
-            }
-            finally
-            {
-                cnn?.Close();
+                    member.Id = Convert.ToInt32(command.ExecuteScalar());
+                }
             }
         }
 
@@ -178,7 +174,7 @@ namespace Mastermind.DataAccessLayer.Factories
 
             try
             {
-                cnn = new MySqlConnection(DAL.ConnectionString);
+                cnn = new MySqlConnection(_connectionString);
                 cnn.Open();
 
                 MySqlCommand cmd = cnn.CreateCommand();
@@ -187,7 +183,8 @@ namespace Mastermind.DataAccessLayer.Factories
                                       Email = @Email, 
                                       Username = @Username, 
                                       Role = @Role, 
-                                      ImagePath = @ImagePath";
+                                      ImagePath = @ImagePath,
+                                      RegistrationDate = @RegistrationDate";
 
                 // Only update password if it's not empty
                 if (!string.IsNullOrEmpty(member.Password))
@@ -204,6 +201,7 @@ namespace Mastermind.DataAccessLayer.Factories
                 cmd.Parameters.AddWithValue("@Username", member.Username);
                 cmd.Parameters.AddWithValue("@Role", member.Role);
                 cmd.Parameters.AddWithValue("@ImagePath", member.ImagePath);
+                cmd.Parameters.AddWithValue("@RegistrationDate", member.RegistrationDate);
 
                 return cmd.ExecuteNonQuery() > 0;
             }
@@ -219,7 +217,7 @@ namespace Mastermind.DataAccessLayer.Factories
 
             try
             {
-                cnn = new MySqlConnection(DAL.ConnectionString);
+                cnn = new MySqlConnection(_connectionString);
                 cnn.Open();
 
                 MySqlCommand cmd = cnn.CreateCommand();
@@ -242,5 +240,43 @@ namespace Mastermind.DataAccessLayer.Factories
 
             return CryptographyHelper.ValidateHashedPassword(password, member.Password);
         }
+
+        public List<MonthlySignup> GetMonthlySignups(int months = 6)
+        {
+            var signups = new List<MonthlySignup>();
+            using (MySqlConnection connection = new MySqlConnection(_connectionString))
+            {
+                connection.Open();
+                using (MySqlCommand command = new MySqlCommand(@"
+                    SELECT 
+                        DATE_FORMAT(RegistrationDate, '%Y-%m') AS Month,
+                        COUNT(*) AS NewMembers
+                    FROM tp6_members
+                    WHERE RegistrationDate >= DATE_SUB(CURDATE(), INTERVAL @Months MONTH)
+                    GROUP BY DATE_FORMAT(RegistrationDate, '%Y-%m')
+                    ORDER BY Month", connection))
+                {
+                    command.Parameters.AddWithValue("@Months", months);
+                    using (MySqlDataReader reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            signups.Add(new MonthlySignup
+                            {
+                                Month = (string)reader["Month"],
+                                Count = (int)reader["NewMembers"]
+                            });
+                        }
+                    }
+                }
+            }
+            return signups;
+        }
+    }
+
+    public class MonthlySignup
+    {
+        public string Month { get; set; } = string.Empty;
+        public int Count { get; set; }
     }
 }

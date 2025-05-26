@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace Mastermind.Models
@@ -15,5 +16,36 @@ namespace Mastermind.Models
         [Required(ErrorMessage = "Le nombre de couleurs disponibles est requis")]
         [Range(4, 10, ErrorMessage = "Le nombre de couleurs doit être entre 4 et 10")]
         public int AvailableColors { get; set; }
+
+        public int NbColors { get; set; }
+        public int NbPositions { get; set; }
+        public int NbAttempts { get; set; }
+
+        public static GameConfig FromPreferences(MemberPreferences? preferences)
+        {
+            if (preferences == null)
+                return null;
+
+            return new GameConfig
+            {
+                NbColors = preferences.NbColors,
+                NbPositions = preferences.NbPositions,
+                NbAttempts = preferences.NbAttempts
+            };
+        }
+
+        public static GameConfig FromConfig(Dictionary<string, Config> configByKey)
+        {
+            int.TryParse(configByKey[Config.NB_COLORS].Value, out int nbColors);
+            int.TryParse(configByKey[Config.NB_POSITIONS].Value, out int nbPositions);
+            int.TryParse(configByKey[Config.NB_ATTEMPTS].Value, out int nbAttempts);
+
+            return new GameConfig
+            {
+                NbColors = nbColors,
+                NbPositions = nbPositions,
+                NbAttempts = nbAttempts
+            };
+        }
     }
 } 
