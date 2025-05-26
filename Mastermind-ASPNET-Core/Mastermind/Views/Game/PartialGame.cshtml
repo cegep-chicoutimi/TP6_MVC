@@ -6,25 +6,25 @@
     <input type="hidden" id="selected-color-index" />
 
     <div class="title">
-        <h1>@Localizer["Game"]</h1>
+        <h1>@SharedLocalizer["Game"]</h1>
     </div>
     <div class="information">
         @switch (Model.State)
         {
             case Game.GameState.Running:
-                <p>@Localizer["GameInProgress"]</p>
+                <p>@SharedLocalizer["GameInProgress"]</p>
                 break;
             case Game.GameState.PlayerWin:
-                <p>@Localizer["YouWon"]</p>
+                <p>@SharedLocalizer["YouWon"]</p>
                 break;
             case Game.GameState.ComputerWin:
-                <p>@Localizer["YouLost"]</p>
+                <p>@SharedLocalizer["YouLost"]</p>
                 break;
         }
         @if (Model.State != Game.GameState.Running)
         {
             <div class="link">
-                <a asp-action="Replay" class="btn btn-sm btn-primary">@Localizer["PlayAgain"]</a>
+                <a asp-action="Replay" class="btn btn-sm btn-primary">@SharedLocalizer["PlayAgain"]</a>
             </div>
         }
     </div>
@@ -110,7 +110,7 @@
         </div>
         <div class="player-action">
             <div>
-                <p>Choisissez vos couleurs</p>
+                <p>@SharedLocalizer["ChooseYourColors"]</p>
             </div>
             <div class="colors">
                 @for (int colorIndex = 1; colorIndex <= Model.NbColors; colorIndex++)
@@ -124,10 +124,10 @@
                     {
                         <input type="hidden" id="color-index-@position" name="color-index-@position" value="0" />
                     }
-                    <button type="submit" class="btn btn-sm btn-primary">Confirmer vos choix</button>
+                    <button type="submit" class="btn btn-sm btn-primary">@SharedLocalizer["ConfirmChoices"]</button>
                 </form>
             </div>
         </div>
     }
-    <a asp-action="Replay">Nouvelle partie</a>
+    <a asp-action="Replay">@SharedLocalizer["NewGame"]</a>
 </div>

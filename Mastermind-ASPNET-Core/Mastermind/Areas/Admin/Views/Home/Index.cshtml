@@ -38,10 +38,10 @@
 
         function drawBarChart() {
             var data = google.visualization.arrayToDataTable([
-                ["Element", "Valeur", { role: "style" } ],
-                ["Couleurs", @Model.NbColors, "color: gold"],
-                ["Positions", @Model.NbPositions, "color: orange"],
-                ["Tentatives", @Model.NbAttempts, "color: blue"]
+                ["Element", "Value", { role: "style" } ],
+                ["@SharedLocalizer["Colors"]", @Model.NbColors, "color: gold"],
+                ["@SharedLocalizer["Positions"]", @Model.NbPositions, "color: orange"],
+                ["@SharedLocalizer["Attempts"]", @Model.NbAttempts, "color: blue"]
             ]);
 
             var view = new google.visualization.DataView(data);
@@ -53,7 +53,7 @@
                             2]);
 
             var options = {
-                title: "Configuration du jeu",
+                title: "@SharedLocalizer["GameConfiguration"]",
                 width: 600,
                 height: 400,
                 bar: { groupWidth: "95%" },
@@ -66,13 +66,13 @@
         function drawPieChart() {
             var data = google.visualization.arrayToDataTable([
                 ['Task', 'Hours per Day'],
-                ['Couleurs', @Model.NbColors],
-                ['Positions', @Model.NbPositions],
-                ['Tentatives', @Model.NbAttempts]
+                ['@SharedLocalizer["Colors"]', @Model.NbColors],
+                ['@SharedLocalizer["Positions"]', @Model.NbPositions],
+                ['@SharedLocalizer["Attempts"]', @Model.NbAttempts]
             ]);
 
             var options = {
-                title: 'Répartition des paramètres',
+                title: '@SharedLocalizer["ParameterDistribution"]',
                 width: 600,
                 height: 400,
                 is3D: true,

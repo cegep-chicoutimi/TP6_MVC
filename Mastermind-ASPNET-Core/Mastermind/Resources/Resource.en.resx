@@ -1,0 +1,408 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="AccessDenied" xml:space="preserve">
+    <value>Access Denied</value>
+  </data>
+  <data name="AccessDeniedMessage" xml:space="preserve">
+    <value>You do not have the necessary permissions to access this page.</value>
+  </data>
+  <data name="Actions" xml:space="preserve">
+    <value>Actions</value>
+  </data>
+  <data name="AdminDashboard" xml:space="preserve">
+    <value>Dashboard</value>
+  </data>
+  <data name="Administration" xml:space="preserve">
+    <value>Administration</value>
+  </data>
+  <data name="AlreadyHaveAccount" xml:space="preserve">
+    <value>Already have an account? Sign in</value>
+  </data>
+  <data name="AvailableColors" xml:space="preserve">
+    <value>Available colors</value>
+  </data>
+  <data name="BackToList" xml:space="preserve">
+    <value>Back to List</value>
+  </data>
+  <data name="Cancel" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="CodeLength" xml:space="preserve">
+    <value>Code length</value>
+  </data>
+  <data name="Configuration" xml:space="preserve">
+    <value>Configuration</value>
+  </data>
+  <data name="CreateAccount" xml:space="preserve">
+    <value>Create Account</value>
+  </data>
+  <data name="CreateMember" xml:space="preserve">
+    <value>Create member</value>
+  </data>
+  <data name="Delete" xml:space="preserve">
+    <value>Delete</value>
+  </data>
+  <data name="DeleteConfirmation" xml:space="preserve">
+    <value>Are you sure you want to delete this member?</value>
+  </data>
+  <data name="DeleteMember" xml:space="preserve">
+    <value>Delete member</value>
+  </data>
+  <data name="Details" xml:space="preserve">
+    <value>Details</value>
+  </data>
+  <data name="Edit" xml:space="preserve">
+    <value>Edit</value>
+  </data>
+  <data name="EditMember" xml:space="preserve">
+    <value>Edit member</value>
+  </data>
+  <data name="EditProfile" xml:space="preserve">
+    <value>Edit profile</value>
+  </data>
+  <data name="Email" xml:space="preserve">
+    <value>Email</value>
+  </data>
+  <data name="FullName" xml:space="preserve">
+    <value>Full Name</value>
+  </data>
+  <data name="Game" xml:space="preserve">
+    <value>Game</value>
+  </data>
+  <data name="GameInProgress" xml:space="preserve">
+    <value>Game going</value>
+  </data>
+  <data name="GameSettings" xml:space="preserve">
+    <value>Game setttings</value>
+  </data>
+  <data name="GameSettingsDescription" xml:space="preserve">
+    <value>Configure Mastermind game parameters.</value>
+  </data>
+  <data name="ImagePath" xml:space="preserve">
+    <value>Profile picture</value>
+  </data>
+  <data name="InvalidCredentials" xml:space="preserve">
+    <value>Invalid username or password</value>
+  </data>
+  <data name="KeepCurrentImage" xml:space="preserve">
+    <value>Leave blank to keep your current image</value>
+  </data>
+  <data name="KeepCurrentPassword" xml:space="preserve">
+    <value>Leave blank to keep your current password</value>
+  </data>
+  <data name="Login" xml:space="preserve">
+    <value>Login</value>
+  </data>
+  <data name="Logout" xml:space="preserve">
+    <value>Logout</value>
+  </data>
+  <data name="ManageMembers" xml:space="preserve">
+    <value>Manage members</value>
+  </data>
+  <data name="MemberManagement" xml:space="preserve">
+    <value>Member management</value>
+  </data>
+  <data name="MemberManagementDescription" xml:space="preserve">
+    <value>Manage site members, their roles and permissions.</value>
+  </data>
+  <data name="MaxAttempts" xml:space="preserve">
+    <value>Max attempts</value>
+  </data>
+  <data name="NewGame" xml:space="preserve">
+    <value>New Game</value>
+  </data>
+  <data name="NoMembersFound" xml:space="preserve">
+    <value>Member not found</value>
+  </data>
+  <data name="Password" xml:space="preserve">
+    <value>Password</value>
+  </data>
+  <data name="PlayAgain" xml:space="preserve">
+    <value>Play Again</value>
+  </data>
+  <data name="PlayGame" xml:space="preserve">
+    <value>Play Game</value>
+  </data>
+  <data name="ProfileUpdated" xml:space="preserve">
+    <value>Your profile has been successfully updated.</value>
+  </data>
+  <data name="Role" xml:space="preserve">
+    <value>Role</value>
+  </data>
+  <data name="Rules" xml:space="preserve">
+    <value>Rules</value>
+  </data>
+  <data name="Save" xml:space="preserve">
+    <value>Save</value>
+  </data>
+  <data name="SaveChanges" xml:space="preserve">
+    <value>Save modification</value>
+  </data>
+  <data name="Submit" xml:space="preserve">
+    <value>Submit</value>
+  </data>
+  <data name="ToggleNavigation" xml:space="preserve">
+    <value>Toggle navigation</value>
+  </data>
+  <data name="Welcome" xml:space="preserve">
+    <value>Welcome</value>
+  </data>
+  <data name="YouLost" xml:space="preserve">
+    <value>You Lost!</value>
+  </data>
+  <data name="YouWon" xml:space="preserve">
+    <value>You Won!</value>
+  </data>
+  <data name="Username" xml:space="preserve">
+    <value>Username</value>
+  </data>
+  <data name="UsernameTaken" xml:space="preserve">
+    <value>This username is already taken</value>
+  </data>
+  <data name="SettingsUpdated" xml:space="preserve">
+    <value>Settings have been updated successfully</value>
+  </data>
+  <data name="WelcomeToMastermind" xml:space="preserve">
+    <value>Welcome to Mastermind</value>
+  </data>
+  <data name="StartNewGame" xml:space="preserve">
+    <value>Start a new game</value>
+  </data>
+  <data name="SecretCode" xml:space="preserve">
+    <value>Secret Code</value>
+  </data>
+  <data name="Colors" xml:space="preserve">
+    <value>Colors</value>
+  </data>
+  <data name="Positions" xml:space="preserve">
+    <value>Positions</value>
+  </data>
+  <data name="Attempts" xml:space="preserve">
+    <value>Attempts</value>
+  </data>
+  <data name="GameConfiguration" xml:space="preserve">
+    <value>Game Configuration</value>
+  </data>
+  <data name="ParameterDistribution" xml:space="preserve">
+    <value>Parameter Distribution</value>
+  </data>
+  <data name="French" xml:space="preserve">
+    <value>French</value>
+  </data>
+  <data name="English" xml:space="preserve">
+    <value>English</value>
+  </data>
+  <data name="Website" xml:space="preserve">
+    <value>Website</value>
+  </data>
+  <data name="YourStats" xml:space="preserve">
+    <value>Your Statistics</value>
+  </data>
+  <data name="GamesWon" xml:space="preserve">
+    <value>Games Won</value>
+  </data>
+  <data name="GamesLost" xml:space="preserve">
+    <value>Games Lost</value>
+  </data>
+  <data name="GamesAbandoned" xml:space="preserve">
+    <value>Games Abandoned</value>
+  </data>
+  <data name="BestScore" xml:space="preserve">
+    <value>Best Score</value>
+  </data>
+  <data name="AverageScore" xml:space="preserve">
+    <value>Average Score</value>
+  </data>
+  <data name="Result" xml:space="preserve">
+    <value>Result</value>
+  </data>
+  <data name="Quantity" xml:space="preserve">
+    <value>Quantity</value>
+  </data>
+  <data name="Won" xml:space="preserve">
+    <value>Won</value>
+  </data>
+  <data name="Lost" xml:space="preserve">
+    <value>Lost</value>
+  </data>
+  <data name="Abandoned" xml:space="preserve">
+    <value>Abandoned</value>
+  </data>
+  <data name="ChooseYourColors" xml:space="preserve">
+    <value>Choose your colors</value>
+  </data>
+  <data name="ConfirmChoices" xml:space="preserve">
+    <value>Confirm your choices</value>
+  </data>
+  <data name="GameRules" xml:space="preserve">
+    <value>Game Rules</value>
+  </data>
+  <data name="GameRulesDescription" xml:space="preserve">
+    <value>The aim of the Mastermind is to find the secret combination made up of
+                of @Model.NbColors colors in as many @Model.NbAttempts moves as possible.
+                This secret combination is generated automatically when a new game is played.
+                Note that the same color can be repeated in the hidden combination.y taken</value>
+  </data>
+  <data name="StartNewGameDescription" xml:space="preserve">
+    <value>To get started, simply select “Play a game” by clicking on the button below or via the main menu.
+                You can then start making combination proposals.
+                To do this, simply position @Model.NbPositions pawns in the first line at the very bottom.
+                First select the color, then target the position on the active blue line.</value>
+  </data>
+  <data name="IncorrectCombination" xml:space="preserve">
+    <value>If the combination presented is incorrect</value>
+  </data>
+  <data name="IncorrectCombinationDescription" xml:space="preserve">
+    <value> If, in the proposal, one or more colored pieces are in the right combination but not in the right place,
+                white markers will be placed in the right-hand part of the line.
+                If one or more colored pieces are in the right place, black markers will be placed on the right-hand side of the line,
+                black markers are used.
+                Note that the position of the markers is not linked to the position of the proposition.
+                Black markers are displayed first, then white.</value>
+  </data>
+  <data name="IncorrectCombinationContinuation" xml:space="preserve">
+    <value>You continue in this way, proposing another proposal on the second line, taking into account, of course
+                the black and white markers. You are allowed @Model.NbAttempts to decipher the code,
+                otherwise you'll be declared the loser and the secret combination will be revealed. You can then analyze your game if you wish.</value>
+  </data>
+  <data name="CorrectCombination" xml:space="preserve">
+    <value>If the combination is correct</value>
+  </data>
+  <data name="CorrectCombinationDescription" xml:space="preserve">
+    <value>You've completed the challenge and the secret combination is revealed. One of the sub-objectives is to succeed in as few moves as possible.</value>
+  </data>
+  <data name="TipsForDeciphering" xml:space="preserve">
+    <value>Tips for deciphering the Mastermind's secret combination</value>
+  </data>
+  <data name="TipsForDecipheringDescription" xml:space="preserve">
+    <value>If you're nearing the end of the game and still haven't cracked the secret combination,
+                it's a good idea to compare the lines on which you've scored the highest.
+                Lines with zero colors found can also be useful for eliminating colors once and for all.</value>
+  </data>
+  <data name="RulesInspiredBy" xml:space="preserve">
+    <value>Rules inspired by :</value>
+  </data>
+  <data name="SignIn" xml:space="preserve">
+    <value>SignIn</value>
+  </data>
+  <data name="CreateNewAccount" xml:space="preserve">
+    <value>Create account</value>
+  </data>
+</root>

@@ -1,6 +1,6 @@
 ﻿@model Mastermind.ViewModels.HomeVM
 @{
-    ViewData["Title"] = @Localizer["WelcomeToMastermind"];
+    ViewData["Title"] = @SharedLocalizer["WelcomeToMastermind"];
 }
 
 <div id="home-page">
@@ -12,44 +12,41 @@
     <div class="row">
         <div class="col-12">
             <a id="rules"></a>
-            <h3>@Localizer["GameRules"]</h3>
+            <h3>@SharedLocalizer["GameRules"]</h3>
             <p>
-                @Localizer["GameRulesDescription"]
+                @SharedLocalizer["GameRulesDescription",@Model.NbColors, @Model.NbAttempts]
             </p>
 
-            <h3>@Localizer["StartNewGame"]</h3>
+            <h3>@SharedLocalizer["StartNewGame"]</h3>
             <p>
-                @Localizer["StartNewGameDescription"]
+                @SharedLocalizer["StartNewGameDescription",@Model.NbPositions]
             </p>
             <p>
                 <a asp-controller="Game" asp-action="Index" class="btn btn-primary">
-                    @Localizer["StartNewGame"]
+                    @SharedLocalizer["StartNewGame"]
                 </a>
             </p>
 
-            <h3>@Localizer["IncorrectCombination"]</h3>
+            <h3>@SharedLocalizer["IncorrectCombination"]</h3>
             <p>
-                @Localizer["IncorrectCombinationDescription"]
+                @SharedLocalizer["IncorrectCombinationDescription"]
             </p>
             <p>
-                @Localizer["IncorrectCombinationExplanation"]
-            </p>
-            <p>
-                @Localizer["IncorrectCombinationContinuation"]
+                @SharedLocalizer["IncorrectCombinationContinuation", @Model.NbAttempts]
             </p>
 
-            <h3>@Localizer["CorrectCombination"]</h3>
+            <h3>@SharedLocalizer["CorrectCombination"]</h3>
             <p>
-                @Localizer["CorrectCombinationDescription"]
+                @SharedLocalizer["CorrectCombinationDescription"]
             </p>
 
-            <h3>@Localizer["TipsForDeciphering"]</h3>
+            <h3>@SharedLocalizer["TipsForDecip hering"]</h3>
             <p>
-                @Localizer["TipsForDecipheringDescription"]
+                @SharedLocalizer["TipsForDecipheringDescription"]
             </p>
 
             <p class="rules-link">
-                @Localizer["RulesInspiredBy"]
+                @SharedLocalizer["RulesInspiredBy"]
                 <a href="https://www.regles-de-jeux.com/regle-du-mastermind/">https://www.regles-de-jeux.com/regle-du-mastermind/</a>
             </p>
         </div>
